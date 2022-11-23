@@ -4,11 +4,11 @@ const { Schema, model, SchemaType } = require("mongoose");
 const commentSchema = new Schema(
   {
     user: {
-      type: SchemaType.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
     },
     event: {
-      type: SchemaType.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Event'
     },
     title: {
