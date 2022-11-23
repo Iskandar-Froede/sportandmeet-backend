@@ -18,6 +18,11 @@ require("./config")(app);
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
 
+
+const eventRoutes = require("./routes/events.routes");
+app.use("/events", eventRoutes);
+app.use("/", indexRoutes);
+
 // Add auth-route
 const authRouter = require('./routes/auth.routes');
 app.use('/auth', authRouter);
