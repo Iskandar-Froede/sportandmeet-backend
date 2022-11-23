@@ -5,6 +5,9 @@ require("dotenv").config();
 // ℹ️ Connects to the database
 require("./db");
 
+// Handle the middleware-token
+const { isAuthenticated } = require("./middleware/jwt.middleware"); 
+
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
@@ -18,18 +21,20 @@ require("./config")(app);
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
 
-
+// Add even-route + middleware
 const eventRoutes = require("./routes/events.routes");
-app.use("/events", eventRoutes);
+app.use("/events", isAuthenticated, eventRoutes);
+
+
+// Add Comment-Route + middleware
+const commentRouter = require('./routes/comment.routes');
+app.use('/comments', isAuthenticated, commentRouter);
 
 
 // Add auth-route
 const authRouter = require('./routes/auth.routes');
 app.use('/auth', authRouter);
 
-// Add Comment-Route
-const commentRouter = require('./routes/comment.routes');
-app.use('/comments', commentRouter);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
