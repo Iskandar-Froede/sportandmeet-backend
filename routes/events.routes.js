@@ -4,7 +4,7 @@ const Event = require("../models/Event.model");
 
 router.get('/', async(req, res, next) => {
     const events = await Event.find()
-    res.json({ events })
+    res.json( [ ...events ] )
 });
 
 router.post('/', async (req, res, next) => {
@@ -12,7 +12,7 @@ router.post('/', async (req, res, next) => {
     console.log("htllo")
     const event = await Event.create(body)
   
-    res.status(201).json({ event })
+    res.status(201).json({ ...event })
   });
 
 module.exports = router;
