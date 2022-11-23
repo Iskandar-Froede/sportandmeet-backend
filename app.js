@@ -27,11 +27,6 @@ const eventRoutes = require("./routes/events.routes");
 app.use("/events", isAuthenticated, eventRoutes);
 
 
-// Add Comment-Route 
-const commentRouter = require('./routes/comment.routes');
-app.use('/comments', isAuthenticated, commentRouter);
-
-
 // Add auth-route
 const authRouter = require('./routes/auth.routes');
 app.use('/auth', authRouter);
