@@ -15,7 +15,7 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
-    comment: {
+    description: {
       type: String,
       required: true,
     },
