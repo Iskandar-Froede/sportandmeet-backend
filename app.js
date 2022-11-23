@@ -21,7 +21,7 @@ app.use("/", indexRoutes);
 
 const eventRoutes = require("./routes/events.routes");
 app.use("/events", eventRoutes);
-app.use("/", indexRoutes);
+
 
 // Add auth-route
 const authRouter = require('./routes/auth.routes');
