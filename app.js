@@ -5,9 +5,6 @@ require("dotenv").config();
 // ℹ️ Connects to the database
 require("./db");
 
-// Handle the middleware-token
-const { isAuthenticated } = require("./middleware/jwt.middleware"); 
-
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
@@ -17,16 +14,20 @@ const app = express();
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
+// Middleware
+
+const isAuthenticated = require('./middlewares/isAuthenticated')
+
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
 
-// Add even-route + middleware
+// Add even-route 
 const eventRoutes = require("./routes/events.routes");
 app.use("/events", isAuthenticated, eventRoutes);
 
 
-// Add Comment-Route + middleware
+// Add Comment-Route 
 const commentRouter = require('./routes/comment.routes');
 app.use('/comments', isAuthenticated, commentRouter);
 
