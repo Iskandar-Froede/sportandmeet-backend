@@ -9,7 +9,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 
 router.get('/', async(req, res, next) => {
     const events = await Event.find()
-    res.json( [ ...events ] )
+    res.status(200).json( {events} )
 });
 
 router.post('/', async (req, res, next) => {
@@ -36,31 +36,31 @@ console.log('event route')
 
 router.get('/')
 
-
 //         /events/:id
 router.post('/:id', isAuthenticated, async(req, res, next) => {
   const { id } = req.params
+  const { title, description } = req.body;  // geting the info of the comments
 
 // Finding the selected event
   const eventFound = await Event.findById(id);   // finding the Event that the user will comment, and we are using the "id"
 
   const userFound = await User.findById(req.payload.user._id)
 
-  console.log(userFound)
+  const newComment = await Comment.create({ title, description, user: userFound, event: eventFound }) // create a comment
+  
 
+  eventFound.comment.push(newComment)
+  await eventFound.save()
 
-
-
-// Finding the user
- // const userFound = await User.findById(req.jwtPayload.user._id); // finding the user that makes the comment, the one who is login 
-
-  //const { title, description, created } = req.body;  // geting the info of the comments
-
-  //const comment = await Comment.create({ title, description, created, user: userFound, event: eventFound }) // create a comment
-
-  res.status(200).json({userFound})
+  res.status(200).json({newComment})
 })
 
+
+router.get('/:id', isAuthenticated, async(req, res, next) => {
+  const { id } = req.params
+  const findComment = await Comment.findById(req.params)
+
+})
 
 
 module.exports = router;
