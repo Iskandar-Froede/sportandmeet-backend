@@ -9,27 +9,27 @@ const eventSchema = new Schema(
     },
     sport: {
       type: String,
-      required: [true, 'Email is required.'],
+      // required: [true, 'Email is required.'],
       enum: ['Football', 'Volleyball', 'Tennis', 'Cycling', 'Basketball', 'Running']
     },
     startTime: {
       type: String,
-      required: [true, 'Start time is required.'],
+      // required: [true, 'Start time is required.'],
       trim: true
       },
     endTime: {
       type: String,
-      required: [true, 'End time is required.'],
+      // required: [true, 'End time is required.'],
       trim: true
       },
     location: {
       type: String,
-      required: [true, 'Location is required.'],
+      // required: [true, 'Location is required.'],
       trim: true
       },
     participants: {
         type: Number,
-        required: [true, 'Number of participants for this event is required.'],
+       // required: [true, 'Number of participants for this event is required.'],
         trim: true
       },
     comment: [{

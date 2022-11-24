@@ -3,6 +3,7 @@ const Event = require("../models/Event.model");
 const User = require('../models/User.model');
 const Comment = require('../models/Comment.Model');
 const jwt = require("jsonwebtoken");
+const isAuthenticated = require('../middlewares/isAuthenticated');
 
 // Route GET & POST for event
 
@@ -12,19 +13,19 @@ router.get('/', async(req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-
+console.log('event route')
 
 
   const { name, sport, startTime, endTime, location, participants } = req.body;
    
-    console.log("htllo")
+    console.log(req.body.event)
     const event = await Event.create({
       name: req.body.name,
-      sport: req.body.sport,
-      startTime: req.body.startTime,
-      endTime: req.body.endTime,
-      location: req.body.location,
-      participants: req.body.participants,
+    //  sport: req.body.sport,
+     // startTime: req.body.startTime,
+     // endTime: req.body.endTime,
+    //  location: req.body.location,
+    //  participants: req.body.participants,
     })
   
     res.status(201).json({ message: 'Event created' })
@@ -37,7 +38,7 @@ router.get('/')
 
 
 //         /events/:id
-router.post('/:id', isAuthenticated, async(req, res, next) => {
+router.post('/:id', async(req, res, next) => {
   const { id } = req.params
 
 // Finding the selected event

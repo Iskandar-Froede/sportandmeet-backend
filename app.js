@@ -24,7 +24,7 @@ app.use("/", indexRoutes);
 
 // Add even-route 
 const eventRoutes = require("./routes/events.routes");
-app.use("/events", isAuthenticated, eventRoutes);
+app.use("/events", eventRoutes);
 
 
 // Add auth-route
