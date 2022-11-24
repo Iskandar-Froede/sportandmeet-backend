@@ -33,7 +33,6 @@ router.post('/signup', async(req, res, next) => {
     return;
   }
 
-
 // If the user with the same email already exists, send an error response
 const foundUser = await User.findOne({email});
 
@@ -52,8 +51,6 @@ await User.create({ email, password: hashedPassword })
 res.status(201).json({ message: 'User created' })
 })
 
-
-
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post('/login', async(req, res, next) => {
   const { email, password } = req.body;
@@ -70,7 +67,7 @@ const currentUser = await User.findOne({ email })
 
 console.log(currentUser)
 
- // Check if our user exists
+// Check if our user exists
 
  if (currentUser) {
   
@@ -79,7 +76,7 @@ console.log(currentUser)
     const userCopy = { ...currentUser._doc }
     delete userCopy.hashedPassword
 
-    // Generate the JWT (don't forget to put a secret in your .env file)
+// Generate the JWT (don't forget to put a secret in your .env file)
     const authToken = jwt.sign(
       {
         expiresIn: '6h',
@@ -109,7 +106,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
   console.log(`req.payload`, req.payload);
 
 // Send back the object with user data
- // previously set as the token payload
+// previously set as the token payload
  
   res.status(200).json({ payload: req.payload, message: 'Token OK' })
 });

@@ -27,21 +27,15 @@ const eventSchema = new Schema(
       required: [true, 'Location is required.'],
       trim: true
       },
-    spacesLeft: {
+    participants: {
         type: Number,
-        required: [true, 'Number of spaces for this event is required.'],
+        required: [true, 'Number of participants for this event is required.'],
         trim: true
       },
-    price: {
-        type: String,
-        required: [true, 'Price is required.'],
-        trim: true
-      },
-    details: {
-        type: String,
-        required: [true, 'Please include details about your event.'],
-        trim: true
-      },
+    comment: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+      }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

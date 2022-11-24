@@ -13,7 +13,15 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required.']
-    }
+    },
+    event: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+    }],
+    comment: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'
+    }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    
