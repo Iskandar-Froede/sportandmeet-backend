@@ -65,14 +65,14 @@ router.post('/login', async(req, res, next) => {
 
 const currentUser = await User.findOne({ email })
 
-console.log(currentUser)
+
 
 // Check if our user exists
 
  if (currentUser) {
   
 // Check the password of our user
-  if (compareSync(password, currentUser.hashedPassword)) {
+  if (compareSync(password, currentUser.password)) {
     const userCopy = { ...currentUser._doc }
     delete userCopy.hashedPassword
 
@@ -87,7 +87,7 @@ console.log(currentUser)
         algorithm: 'HS256',
       }
     )
-
+      console.log("the token", authToken)
     res.status(200).json({ status: 200, token: authToken })
   } else {
     res.status(400).json({ message: 'Wrong password' })
