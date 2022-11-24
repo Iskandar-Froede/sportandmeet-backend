@@ -45,12 +45,17 @@ router.post('/:id', isAuthenticated, async(req, res, next) => {
   const eventFound = await Event.findById(id);   // finding the Event that the user will comment, and we are using the "id"
 
   const userFound = await User.findById(req.payload.user._id)
+  console.log(userFound)
+  console.log(req.payload)
 
   const newComment = await Comment.create({ title, description, user: userFound, event: eventFound }) // create a comment
   
-
+// Add new comment into array in selected event & user
   eventFound.comment.push(newComment)
   await eventFound.save()
+
+  userFound.comment.push(newComment)
+  await userFound.save()
 
   res.status(200).json({newComment})
 })
