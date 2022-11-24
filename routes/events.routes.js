@@ -9,7 +9,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 
 router.get('/', async(req, res, next) => {
     const events = await Event.find()
-    res.json({ events })
+    res.json( [ ...events ] )
 });
 
 router.post('/', async (req, res, next) => {
