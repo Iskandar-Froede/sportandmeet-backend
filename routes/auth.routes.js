@@ -110,4 +110,15 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
   res.status(200).json({ payload: req.payload, message: "Token OK" });
 });
 
+// setting profile route
+router.get("/profile", isAuthenticated, async (req, res) => {
+  const loginUser = await User.findById(req.payload.user._id);
+  res.status(200).json({ loginUser });
+});
+
+// setting logout route
+router.get("/logout", isAuthenticated, (req, res, next) => {
+  res.status(200).json({ message: "Logout" });
+});
+
 module.exports = router;
