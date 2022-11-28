@@ -20,10 +20,6 @@ const commentSchema = new Schema(
       type: String,
       required: true,
     },
-    created: {
-      type: Date,
-      default: Date.now,
-    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

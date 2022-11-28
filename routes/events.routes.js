@@ -14,13 +14,14 @@ router.get("/", (req, res, next) => {
 });
 
 //  GET /events/:Id -  Retrieves a specific event by id
-router.get("/:Id", (req, res, next) => {
+router.get("/singleEvent/:Id", (req, res, next) => {
   const { Id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(Id)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
+  console.log("this is event detail", Id);
+  // if (!mongoose.Types.ObjectId.isValid(Id)) {
+  //  res.status(400).json({ message: "Specified id is not valid" });
+  // return;
+  //  }
 
   // Each Event document has `comment` array holding `_id`s of Comment documents
   // We use .populate() method to get swap the `_id`s for the actual Comment documents
