@@ -9,9 +9,9 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res, next) => {
-  console.log("You're in singup route", req.body);
+  console.log("You're in signup route", req.body);
 
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   // if (email === "" || password === "") {
   //   res.status(400).json({ message: "Provide email and password" });
@@ -51,7 +51,7 @@ router.post("/signup", async (req, res, next) => {
 
   // Create the new user in the database
 
-  await User.create({ name, email, password: hashedPassword });
+  await User.create({ username, email, password: hashedPassword });
   res.status(201).json({ message: "User created" });
 });
 

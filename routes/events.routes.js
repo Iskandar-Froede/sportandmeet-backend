@@ -2,43 +2,87 @@ const router = require("express").Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const Comment = require("../models/Comment.Model");
-const jwt = require("jsonwebtoken");
-const isAuthenticated = require("../middlewares/isAuthenticated");
 
-// Route GET & POST for event
+// POST, GET, PUT EVENTS
 
-router.get("/", async (req, res, next) => {
-  const events = await Event.find();
-  res.status(200).json({ events });
+// GET /events -  Retrieves all of the events
+router.get("/", (req, res, next) => {
+  Event.find()
+    .populate("comment")
+    .then((allEvents) => res.json(allEvents))
+    .catch((err) => res.json(err));
 });
 
+//  GET /events/:Id -  Retrieves a specific event by id
+router.get("/:Id", (req, res, next) => {
+  const { Id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(Id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  // Each Event document has `comment` array holding `_id`s of Comment documents
+  // We use .populate() method to get swap the `_id`s for the actual Comment documents
+  Event.findById(Id)
+    .populate("comment")
+    .then((event) => res.status(200).json(event))
+    .catch((error) => res.json(error));
+});
+
+// PUT  /events/:Id  -  Updates a specific event by id
+router.put("/:Id", (req, res, next) => {
+  const { Id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(Id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  Event.findByIdAndUpdate(Id, req.body, { new: true })
+    .then((updatedEvent) => res.json(updatedEvent))
+    .catch((error) => res.json(error));
+});
+
+// DELETE  /events/:Id  -  Deletes a specific event by id
+router.delete("/:Id", (req, res, next) => {
+  const { Id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(Id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  Project.findByIdAndRemove(Id)
+    .then(() => res.json({ message: `Event with ${Id} is removed.` }))
+    .catch((error) => res.json(error));
+});
+
+//  POST /events  -  Creates a new event
 router.post("/", async (req, res, next) => {
   console.log("event route");
 
-  const { name, sport, startTime, endTime, location, participants } = req.body;
-
+  const { name, sport, date, time, location, participants } = req.body;
   console.log(req.body.event);
+
   const event = await Event.create({
     name: req.body.name,
-    //  sport: req.body.sport,
-    // startTime: req.body.startTime,
-    // endTime: req.body.endTime,
-    //  location: req.body.location,
-    //  participants: req.body.participants,
+    sport: req.body.sport,
+    date: req.body.date,
+    time: req.body.time,
+    location: req.body.location,
+    participants: req.body.participants,
   });
-
   res.status(201).json({ message: "Event created" });
 });
 
-// Route Get & Post comments
-
-//         /events/:id
-router.post("/:id", isAuthenticated, async (req, res, next) => {
+// Route /events/:id - create comment
+router.post("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { title, description } = req.body; // geting the info of the comments
 
-  // Finding the selected event
-  const eventFound = await Event.findById(id); // finding the Event that the user will comment, and we are using the "id"
+  // finding the Event that the user will comment, and we are using the "id"
+  const eventFound = await Event.findById(id);
 
   const userFound = await User.findById(req.payload.user._id);
   console.log(userFound);
@@ -49,7 +93,7 @@ router.post("/:id", isAuthenticated, async (req, res, next) => {
     description,
     user: userFound,
     event: eventFound,
-  }); // create a comment
+  });
 
   // Add new comment into array in selected event & user
   eventFound.comment.push(newComment);
@@ -61,9 +105,6 @@ router.post("/:id", isAuthenticated, async (req, res, next) => {
   res.status(200).json({ newComment });
 });
 
-router.get("/:id", isAuthenticated, async (req, res, next) => {
-  const { id } = req.params;
-  const findComment = await Comment.findById(req.params);
-});
+//  GET /events/:Id -  Retrieves a specific comment by id
 
 module.exports = router;

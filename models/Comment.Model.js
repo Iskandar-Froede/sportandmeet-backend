@@ -1,15 +1,16 @@
-const { Schema, model, SchemaType } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const commentSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: "User",
     },
     event: {
       type: Schema.Types.ObjectId,
-      ref: 'Event'
+      ref: "Event",
     },
     title: {
       type: String,
@@ -21,12 +22,12 @@ const commentSchema = new Schema(
     },
     created: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`    
-    timestamps: true
+    // this second object adds extra properties: `createdAt` and `updatedAt`
+    timestamps: true,
   }
 );
 

@@ -16,21 +16,19 @@ require("./config")(app);
 
 // Middleware
 
-const isAuthenticated = require('./middlewares/isAuthenticated')
+const isAuthenticated = require("./middlewares/isAuthenticated");
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
 
-// Add even-route 
+// Add even-route
 const eventRoutes = require("./routes/events.routes");
 app.use("/events", eventRoutes);
 
-
 // Add auth-route
-const authRouter = require('./routes/auth.routes');
-app.use('/auth', authRouter);
-
+const authRouter = require("./routes/auth.routes");
+app.use("/auth", authRouter);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
