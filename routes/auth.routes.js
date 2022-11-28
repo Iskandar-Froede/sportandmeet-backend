@@ -5,7 +5,7 @@ const User = require("../models/User.model");
 const Event = require("../models/Event.model");
 const Comment = require("../models/Comment.Model");
 const router = require("express").Router();
-const isAuthenticated = require("../middlewares/isAuthenticated");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res, next) => {

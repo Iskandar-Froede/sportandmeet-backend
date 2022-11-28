@@ -63,15 +63,15 @@ router.post("/", async (req, res, next) => {
   console.log("event route");
 
   const { name, sport, date, time, location, participants } = req.body;
-  console.log(req.body.event);
+  console.log(req.body);
 
   const event = await Event.create({
-    name: req.body.name,
-    sport: req.body.sport,
-    date: req.body.date,
-    time: req.body.time,
-    location: req.body.location,
-    participants: req.body.participants,
+    name,
+    sport,
+    date,
+    time,
+    location,
+    participants,
   });
   res.status(201).json({ message: "Event created" });
 });
@@ -79,7 +79,7 @@ router.post("/", async (req, res, next) => {
 // Route /events/:id - create comment
 router.post("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { title, description } = req.body; // geting the info of the comments
+  const { title, description, created } = req.body; // geting the info of the comments
 
   // finding the Event that the user will comment, and we are using the "id"
   const eventFound = await Event.findById(id);

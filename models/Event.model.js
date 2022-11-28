@@ -15,7 +15,7 @@ const eventSchema = new Schema(
         "Football",
         "Volleyball",
         "Tennis",
-        "Cycling",
+        "Yoga",
         "Basketball",
         "Running",
       ],
