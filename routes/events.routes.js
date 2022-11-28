@@ -78,30 +78,25 @@ router.post("/", async (req, res, next) => {
 });
 
 // Route /events/:id - create comment
-router.post("/:id", async (req, res, next) => {
+router.post("/comments/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { title, description, created } = req.body; // geting the info of the comments
+  const { title, description, userId } = req.body; // geting the info of the comments
+  console.log(req.params);
+  console.log(req.body);
 
   // finding the Event that the user will comment, and we are using the "id"
   const eventFound = await Event.findById(id);
 
-  const userFound = await User.findById(req.payload.user._id);
-  console.log(userFound);
-  console.log(req.payload);
-
   const newComment = await Comment.create({
     title,
     description,
-    user: userFound,
-    event: eventFound,
+    user: userId,
+    event: id,
   });
-
+  console.log(newComment);
   // Add new comment into array in selected event & user
-  eventFound.comment.push(newComment);
+  eventFound.comment.push(newComment._id);
   await eventFound.save();
-
-  userFound.comment.push(newComment);
-  await userFound.save();
 
   res.status(200).json({ newComment });
 });
