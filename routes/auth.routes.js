@@ -5,13 +5,13 @@ const User = require("../models/User.model");
 const Event = require("../models/Event.model");
 const Comment = require("../models/Comment.Model");
 const router = require("express").Router();
-const isAuthenticated = require("../middlewares/isAuthenticated");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res, next) => {
-  console.log("You're in singup route", req.body);
+  console.log("You're in signup route", req.body);
 
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   // if (email === "" || password === "") {
   //   res.status(400).json({ message: "Provide email and password" });
@@ -51,7 +51,7 @@ router.post("/signup", async (req, res, next) => {
 
   // Create the new user in the database
 
-  await User.create({ name, email, password: hashedPassword });
+  await User.create({ username, email, password: hashedPassword });
   res.status(201).json({ message: "User created" });
 });
 
@@ -108,6 +108,17 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
   // previously set as the token payload
 
   res.status(200).json({ payload: req.payload, message: "Token OK" });
+});
+
+// setting profile route
+router.get("/profile", isAuthenticated, async (req, res) => {
+  const loginUser = await User.findById(req.payload.user._id);
+  res.status(200).json({ loginUser });
+});
+
+// setting logout route
+router.get("/logout", isAuthenticated, (req, res, next) => {
+  res.status(200).json({ message: "Logout" });
 });
 
 module.exports = router;
