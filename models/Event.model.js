@@ -11,14 +11,7 @@ const eventSchema = new Schema(
     sport: {
       type: String,
       // required: [true, 'Email is required.'],
-      enum: [
-        "Football",
-        "Volleyball",
-        "Tennis",
-        "Yoga",
-        "Basketball",
-        "Running",
-      ],
+      enum: ["Zumba", "Volleyball", "Tennis", "Yoga", "Basketball", "Running"],
     },
     date: {
       type: Date,
@@ -39,6 +32,10 @@ const eventSchema = new Schema(
       type: Number,
       // required: [true, 'Number of participants for this event is required.'],
       trim: true,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     comment: [
       {
