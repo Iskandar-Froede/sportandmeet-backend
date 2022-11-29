@@ -57,17 +57,17 @@ router.post("/signup", async (req, res, next) => {
 
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   // Check if email or password are provided as empty string
-  if (email === "" || password === "") {
+  if (username === "" || password === "") {
     res.status(400).json({ message: "Provide email and password." });
     return;
   }
 
   // Check the users collection if a user with the same email exists
 
-  const currentUser = await User.findOne({ email });
+  const currentUser = await User.findOne({ username });
 
   // Check if our user exists
 
