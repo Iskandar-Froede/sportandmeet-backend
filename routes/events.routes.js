@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const Comment = require("../models/Comment.Model");
+const mongoose = require("mongoose");
 
 // POST, GET, PUT EVENTS
 
@@ -14,7 +15,7 @@ router.get("/", (req, res, next) => {
 });
 
 //  GET /events/:Id -  Retrieves a specific event by id
-router.get("/singleEvent/:Id", (req, res, next) => {
+router.get("/:Id", (req, res, next) => {
   const { Id } = req.params;
 
   console.log("this is event detail", Id);
