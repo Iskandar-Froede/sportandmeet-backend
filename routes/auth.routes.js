@@ -89,7 +89,9 @@ router.post("/login", async (req, res, next) => {
         }
       );
       console.log("the token", authToken);
-      res.status(200).json({ status: 200, token: authToken });
+      res
+        .status(200)
+        .json({ status: 200, token: authToken, user: currentUser });
     } else {
       res.status(400).json({ message: "Wrong password" });
     }
@@ -102,7 +104,7 @@ router.post("/login", async (req, res, next) => {
 router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and made available on `req.payload`
-  console.log(`req.payload`, req.payload);
+  // console.log(`req.payload`, req.payload);
 
   // Send back the object with user data
   // previously set as the token payload
