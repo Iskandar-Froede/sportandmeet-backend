@@ -89,7 +89,7 @@ router.post("/login", async (req, res, next) => {
         }
       );
       console.log("the token", authToken);
-      res.status(200).json({ status: 200, token: authToken });
+      res.status(200).json({ status: 200, token: authToken, user:currentUser });
     } else {
       res.status(400).json({ message: "Wrong password" });
     }
