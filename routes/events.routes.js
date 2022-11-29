@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const Comment = require("../models/Comment.Model");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
 
 // POST, GET, PUT EVENTS
 
@@ -80,8 +81,14 @@ router.post("/", async (req, res, next) => {
     { $push: { event: event._id } },
     { new: true }
   );
-  console.log(findUser);
+
   res.status(201).json({ message: "Event created" });
+});
+
+router.get("/user-events", isAuthenticated, async (req, res, next) => {
+  const findUser = await User.findById(req.payload.user._id).populate("event");
+  console.log("here is finduser", findUser);
+  res.status(200).json(findUser);
 });
 
 // Route /events/:id - create comment
