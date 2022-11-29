@@ -56,7 +56,7 @@ router.delete("/:Id", (req, res, next) => {
     return;
   }
 
-  Project.findByIdAndRemove(Id)
+  Event.findByIdAndRemove(Id)
     .then(() => res.json({ message: `Event with ${Id} is removed.` }))
     .catch((error) => res.json(error));
 });
