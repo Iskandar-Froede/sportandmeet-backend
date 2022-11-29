@@ -63,7 +63,7 @@ router.delete("/:Id", (req, res, next) => {
 router.post("/", async (req, res, next) => {
   console.log("event route");
 
-  const { name, sport, date, time, location, participants } = req.body;
+  const { name, sport, date, time, location, participants, userId } = req.body;
   console.log(req.body);
 
   const event = await Event.create({
@@ -73,7 +73,14 @@ router.post("/", async (req, res, next) => {
     time,
     location,
     participants,
+    owner: userId,
   });
+  const findUser = await User.findByIdAndUpdate(
+    userId,
+    { $push: { event: event._id } },
+    { new: true }
+  );
+  console.log(findUser);
   res.status(201).json({ message: "Event created" });
 });
 
