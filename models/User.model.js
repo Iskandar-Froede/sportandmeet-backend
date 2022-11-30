@@ -4,6 +4,9 @@ const { Schema, model } = mongoose;
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
+    profileImage: {
+      type: String,
+    },
     username: {
       type: String,
     },

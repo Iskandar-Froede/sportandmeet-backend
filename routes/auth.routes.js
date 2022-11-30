@@ -10,12 +10,28 @@ const uploader = require("../middlewares/cloudinary.config.js");
 
 // Cloudinary setup
 
-router.post("/upload", uploader.single("imageUrl"), (req, res, next) => {
-  // uploader.single will return the req.file & you still have normal access to your req.body
-  console.log("file is: ", req.file);
+router.post(
+  "/upload/:Id",
+  uploader.single("imageUrl"),
+  async (req, res, next) => {
+    // uploader.single will return the req.file & you still have normal access to your req.body
+    console.log("file is: ", req.file, req.body);
 
-  res.status(200).json("Logged in now");
-});
+    const { Id } = req.params;
+
+    console.log("here come reqbody", Id);
+
+    const profileImageUpdated = await User.findByIdAndUpdate(
+      Id,
+      {
+        profileImage: req.file.path,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(profileImageUpdated);
+  }
+);
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res, next) => {
