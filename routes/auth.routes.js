@@ -6,6 +6,16 @@ const Event = require("../models/Event.model");
 const Comment = require("../models/Comment.Model");
 const router = require("express").Router();
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
+const uploader = require("../middlewares/cloudinary.config.js");
+
+// Cloudinary setup
+
+router.post("/upload", uploader.single("imageUrl"), (req, res, next) => {
+  // uploader.single will return the req.file & you still have normal access to your req.body
+  console.log("file is: ", req.file);
+
+  res.status(200).json("Logged in now");
+});
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res, next) => {
@@ -64,10 +74,10 @@ router.post("/login", async (req, res, next) => {
     res.status(400).json({ message: "Provide email and password." });
     return;
   }
-console.log(req.body);
+  console.log(req.body);
   // Check the users collection if a user with the same email exists
 
-  const currentUser = await User.findOne({ email});
+  const currentUser = await User.findOne({ email });
 
   // Check if our user exists
 
