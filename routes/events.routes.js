@@ -15,6 +15,11 @@ router.get("/", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+router.get("/user-events", isAuthenticated, async (req, res, next) => {
+  const findUser = await User.findById(req.payload.user._id).populate("event");
+  res.status(200).json(findUser);
+});
+
 //  GET /events/:Id -  Retrieves a specific event by id
 router.get("/:Id", (req, res, next) => {
   const { Id } = req.params;
@@ -84,12 +89,6 @@ router.post("/", async (req, res, next) => {
   );
 
   res.status(201).json({ message: "Event created" });
-});
-
-router.get("/user-events", isAuthenticated, async (req, res, next) => {
-  const findUser = await User.findById(req.payload.user._id).populate("event");
-  console.log("here is finduser", findUser);
-  res.status(200).json(findUser);
 });
 
 // Route /events/:id - create comment
