@@ -11,7 +11,7 @@ const eventSchema = new Schema(
     sport: {
       type: String,
       // required: [true, 'Email is required.'],
-      enum: ["Zumba", "Volleyball", "Tennis", "Yoga", "Basketball", "Running"],
+      //   enum: ["Zumba", "Volleyball", "Tennis", "Yoga", "Basketball", "Running"],
     },
     date: {
       type: Date,
