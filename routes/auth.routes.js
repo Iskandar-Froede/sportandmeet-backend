@@ -127,14 +127,15 @@ router.post("/login", async (req, res, next) => {
 });
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get("/verify", isAuthenticated, (req, res, next) => {
+router.get("/verify", isAuthenticated, async (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and made available on `req.payload`
   // console.log(`req.payload`, req.payload);
 
   // Send back the object with user data
   // previously set as the token payload
-
+  const findUserModel = await User.findById(req.payload.user._id);
+  console.log("payload", findUserModel, req.payload);
   res.status(200).json({ payload: req.payload, message: "Token OK" });
 });
 

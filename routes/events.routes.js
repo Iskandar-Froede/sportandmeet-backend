@@ -7,6 +7,19 @@ const mongoose = require("mongoose");
 
 // POST, GET, PUT EVENTS
 
+router.get("/join/:userId/:eventId", async (req, res) => {
+  const { userId, eventId } = req.params;
+  console.log(userId, eventId);
+  const joinUser = await User.findByIdAndUpdate(
+    userId,
+    { $push: { joinEvent: eventId } },
+    { new: true }
+  ).populate("joinEvent");
+
+  console.log(joinUser);
+  res.status(200).json(joinUser);
+});
+
 // GET /events -  Retrieves all of the events
 router.get("/", (req, res, next) => {
   Event.find()
